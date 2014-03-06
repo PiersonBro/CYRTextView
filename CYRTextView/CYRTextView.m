@@ -46,7 +46,7 @@ static const float kCursorVelocity = 1.0f/8.0f;
 @interface CYRTextView ()
 
 @property (nonatomic, strong) CYRLayoutManager *lineNumberLayoutManager;
-@property (nonatomic, strong) CYRTextStorage *syntaxTextStorage;
+@property (nonatomic, strong) NSTextStorage *syntaxTextStorage;
 
 @end
 
@@ -59,7 +59,7 @@ static const float kCursorVelocity = 1.0f/8.0f;
 
 - (id)initWithFrame:(CGRect)frame
 {
-    CYRTextStorage *textStorage = [CYRTextStorage new];
+    NSTextStorage *textStorage = [NSTextStorage new];
     CYRLayoutManager *layoutManager = [CYRLayoutManager new];
     
     self.lineNumberLayoutManager = layoutManager;
@@ -134,7 +134,7 @@ static const float kCursorVelocity = 1.0f/8.0f;
     if ([keyPath isEqualToString:NSStringFromSelector(@selector(font))] && context == CYRTextViewContext)
     {
         // Whenever the UITextView font is changed we want to keep a reference in the stickyFont ivar. We do this to counteract a bug where the underlying font can be changed without notice and cause undesired behaviour.
-        self.syntaxTextStorage.defaultFont = self.font;
+//        self.syntaxTextStorage.defaultFont = self.font;
     }
     else if (([keyPath isEqualToString:NSStringFromSelector(@selector(selectedTextRange))] ||
               [keyPath isEqualToString:NSStringFromSelector(@selector(selectedRange))]) && context == CYRTextViewContext)
@@ -173,18 +173,6 @@ static const float kCursorVelocity = 1.0f/8.0f;
 
 
 #pragma mark - Overrides
-
-- (void)setTokens:(NSMutableArray *)tokens
-{
-    [self.syntaxTextStorage setTokens:tokens];
-}
-
-- (NSArray *)tokens
-{
-    CYRTextStorage *syntaxTextStorage = (CYRTextStorage *)self.textStorage;
-    
-    return syntaxTextStorage.tokens;
-}
 
 - (void)setText:(NSString *)text
 {
